@@ -1,0 +1,24 @@
+[project]
+name = "warsztat-langchain-ai"
+version = "0.1.0"
+description = "Materiały i skrypty szkoleniowe: LangChain, Agenci AI, RAG i MCP"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ddgs>=9.16.0",
+    "faiss-cpu>=1.8.0",
+    "fastapi>=0.115.0",
+    "httpx>=0.28.0",
+    "langchain>=0.3.0",
+    "langchain-chroma>=1.1.0",
+    "langchain-openai>=0.2.0",
+    "langgraph>=0.2.0",
+    "langsmith>=0.2.0",
+    "mcp[cli]<2",
+    "openai>=1.50.0",
+    "pandas>=2.2.0",
+    "pydantic>=2.9.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.32.0",
+    "uvicorn>=0.32.0",
+]
