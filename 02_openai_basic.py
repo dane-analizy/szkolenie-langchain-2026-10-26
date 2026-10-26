@@ -30,3 +30,10 @@ print(response.choices[0].message.content)
 usage = response.usage
 print(f"\nStatystyki tokenów: prompt={usage.prompt_tokens}, "
       f"completion={usage.completion_tokens}, razem={usage.total_tokens}")
+
+
+print("\n--- Wszystkie odpowiedzi modelu ---")
+for choice in response.choices:
+    print(choice.message.content)
+    print("---")
+
