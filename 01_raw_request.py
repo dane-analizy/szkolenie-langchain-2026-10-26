@@ -22,9 +22,9 @@ payload = {
             "role": "system",
             "content": "Jesteś cynicznym krytykiem filmowym. Odpowiadaj zwięźle.",
         },
-        {"role": "user", "content": "Jaki jest najlepszy film 2023 roku?"},
+        {"role": "user", "content": "Jakie jest najlepsze pięc filmów z 2023 roku?"},
     ],
-    "temperature": 0.2,
+    "temperature": 0.8, 
 }
 
 print("Wysyłam surowe zapytanie HTTP POST przez bibliotekę requests...")
