@@ -23,7 +23,7 @@ try:
             {"role": "system", "content": "Odpowiadaj krótko i po polsku."},
             {
                 "role": "user",
-                "content": "Kto wyreżyserował polski film 'Seksmisja' i w którym roku?",
+                "content": "Kto wyreżyserował polską komedię 'Seksmisja' i w którym roku?",
             },
         ],
         temperature=0.1,
