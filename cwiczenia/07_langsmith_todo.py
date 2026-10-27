@@ -29,7 +29,7 @@ prompt = "Czym różni się podejście heurystyczne od agenta opartego na LLM? O
 print(f"Wysyłam zapytanie dla sesji: {session_id} ...")
 
 # Wywołanie z przekazaniem konfiguracji
-odpowiedz = model.invoke(prompt, config=config)
+odpowiedz = model.invoke(prompt, ) # <-- UZUPEŁNIJ przekazanie konfiguracji
 
 print("\nBot:", odpowiedz.content)
 print(f"\nGotowe! Wejdź na https://eu.smith.langchain.com i sprawdź projekt 'bol-chat-bot'.")
