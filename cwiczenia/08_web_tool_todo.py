@@ -10,7 +10,7 @@ load_dotenv()
 @ # <-- UZUPEŁNIJ
 def szukaj_w_internecie(query: str) -> str:
     """""" # <-- UZUPEŁNIJ
-    with DDGS() as ddgs:
+    with DDGS(timeout=15) as ddgs:
         wyniki = list(ddgs.text(query, max_results=2))
         if not wyniki:
             return "Brak wyników."
