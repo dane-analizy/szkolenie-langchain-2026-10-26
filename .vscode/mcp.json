@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "kino-server": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "kino_mcp_server.py"
+      ],
+      "cwd": "ścieżka_do_katalogu_z_projektem",
+    }
+  }
+}

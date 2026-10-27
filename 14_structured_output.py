@@ -1,10 +1,11 @@
 import os
 import uuid
 from datetime import datetime
-from typing import List, Literal
+from typing import Literal
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
+
 from pydantic import BaseModel, Field
 
 from agent_tools import szukaj_filmow_gatunku
@@ -18,14 +19,23 @@ class FilmRekomendacja(BaseModel):
     rezyser: str = Field(description="Reżyser rekomendowanego filmu")
     premiera: str = Field(description="Rok premiery rekomendowanego filmu")
     gatunek: str = Field(description="Gatunek filmu")
-    ocena: float = Field(description="Ocena filmu w skali 1-10")
-    uzasadnienie: str = Field(description="Dlaczego ten film warto obejrzeć")
-    kategoria: Literal["Klasyk", "Blockbuster", "Ambitne"] = Field(description="Kategoria filmu")
+    ocena: float = Field(
+        description="Ocena filmu w skali 1-10",
+        ge=1,
+        le=10,
+    )
+    uzasadnienie: str = Field(description="Dlaczego ten film warto obejrzeć", max_length=80)
+    kategoria: Literal["Klasyk", "Blockbuster", "Ambitne"] = Field(
+        description="Kategoria filmu"
+    )
+    
 
 
 class RaportKinowy(BaseModel):
     profil_widza: str = Field(description="Profil odbiorcy rekomendacji")
-    propozycje: List[FilmRekomendacja] = Field(description="Lista rekomendowanych filmów")
+    propozycje: list[FilmRekomendacja] = Field(
+        description="Lista rekomendowanych filmów"
+    )
     podsumowanie: str = Field(description="Krótkie podsumowanie trendu")
 
 
@@ -47,12 +57,16 @@ config = {
 # 3. Pobranie danych z bazy filmów
 filmy_scifi = szukaj_filmow_gatunku.invoke({"nazwa_gatunku": "Sci-Fi"})
 
+print("Wyjście z toola szukaj_filmow_gatunku (przykładowe dane):")
+print(filmy_scifi)
+
 prompt = (
     f"Oto lista filmów z naszej bazy: {filmy_scifi}. "
     f"Przygotuj profesjonalny raport rekomendacyjny dla miłośnika ambitnych widowisk science-fiction."
 )
 
 print("Wysyłam zapytanie do modelu ze schematem Pydantic (with_structured_output)...\n")
+
 raport: RaportKinowy = structured_model.invoke(prompt, config=config)
 
 # 4. Odbiór w 100% zwalidowanego obiektu Pydantic!
@@ -60,8 +74,11 @@ print("--- Wynik jako zwalidowany obiekt Pydantic ---")
 print(f"Profil widza: {raport.profil_widza}")
 print(f"Liczba propozycji: {len(raport.propozycje)}")
 
+
 for f in raport.propozycje:
-    print(f"\n{f.tytul} [{f.kategoria} z {f.premiera}, reż.: {f.rezyser}] - Ocena: {f.ocena}/10")
+    print(
+        f"\n{f.tytul} [{f.kategoria} z {f.premiera}, reż.: {f.rezyser}] - Ocena: {f.ocena}/10"
+    )
     print(f"Uzasadnienie: {f.uzasadnienie}")
 
 print(f"\nPodsumowanie: {raport.podsumowanie}")
