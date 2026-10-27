@@ -7,6 +7,7 @@ import httpx
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
+from langchain.messages import HumanMessage, SystemMessage
 from langchain.tools import tool
 
 load_dotenv()
@@ -66,7 +67,6 @@ async def main():
     agent = create_agent(
         model=model,
         tools=[api_szukaj_filmow, api_pobierz_szczegoly],
-        system_prompt="Jesteś doradcą filmowym. Korzystaj z narzędzi asynchronicznego API kina.",
     )
 
     pytanie = (
@@ -76,9 +76,24 @@ async def main():
 
     # Wywołanie asynchroniczne bez blokowania pętli zdarzeń asyncio
     print("Wywołuję asynchronicznego agenta (ainvoke)...")
+    # odpowiedz = await agent.ainvoke(
+    #     {"messages": [{"role": "user", "content": pytanie}]}, config=config
+    # )
+
     odpowiedz = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": pytanie}]}, config=config
+        {
+            "messages": [
+                SystemMessage(
+                    content="Jesteś doradcą filmowym. Korzystaj z narzędzi asynchronicznego API kina."
+                ),
+                HumanMessage(content=pytanie),
+            ]
+        },
+        config=config,
     )
+
+    print("Odpowiedź agenta otrzymana, wyświetlam wynik...")
+    print(odpowiedz)
 
     print("\nAgent:")
     print(odpowiedz["messages"][-1].content)
